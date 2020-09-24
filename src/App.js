@@ -55,7 +55,7 @@ function App() {
     <>
       <CssBaseline />
       <Container className={classes.container} maxWidth="md">
-        <GridList className={classes.gridList} cellHeight={435} cols={3}>
+        <GridList className={classes.gridList} cellHeight="auto" spacing={1}>
           {dogData.dogList?.map((dog) => (
             <Card className={classes.root}>
               <CardActionArea onClick={() => window.open(dog.url)}>
