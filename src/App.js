@@ -45,7 +45,7 @@ function App() {
   React.useEffect(() => {
     async function fetchDogs() {
       const { data: dogs } = await axios(
-        "https://uz36428yv0.execute-api.us-east-1.amazonaws.com/dev/pets"
+        "https://vrv4szc74j.execute-api.us-east-1.amazonaws.com/dev/pets"
       );
       setDogData(dogs);
     }
