@@ -6,6 +6,7 @@ import {
   CardContent,
   CardMedia,
   Chip,
+  CircularProgress,
   Container,
   CssBaseline,
   GridList,
@@ -25,6 +26,10 @@ const useStyles = makeStyles({
   },
   container: {
     padding: 20,
+    display: "flex",
+  },
+  progress: {
+    margin: 'auto'
   },
   gridList: {
     justifyContent: "center",
@@ -39,7 +44,7 @@ const useStyles = makeStyles({
 });
 
 function App() {
-  const [dogData, setDogData] = React.useState([]);
+  const [dogData, setDogData] = React.useState({});
   const classes = useStyles();
 
   React.useEffect(() => {
@@ -55,50 +60,54 @@ function App() {
     <>
       <CssBaseline />
       <Container className={classes.container} maxWidth="md">
-        <GridList className={classes.gridList} cellHeight="auto" spacing={1}>
-          {dogData.dogList?.map((dog) => (
-            <Card className={classes.root}>
-              <CardActionArea onClick={() => window.open(dog.url)}>
-                <CardMedia
-                  className={classes.media}
-                  image={dog.photo}
-                  title={dog.name}
-                />
-                <CardContent>
-                  <div className={classes.nameContainer}>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {dog.name}
+        {!!dogData.dogList?.length ? (
+          <GridList className={classes.gridList} cellHeight="auto" spacing={1}>
+            {dogData.dogList?.map((dog) => (
+              <Card className={classes.root}>
+                <CardActionArea onClick={() => window.open(dog.url)}>
+                  <CardMedia
+                    className={classes.media}
+                    image={dog.photo}
+                    title={dog.name}
+                  />
+                  <CardContent>
+                    <div className={classes.nameContainer}>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {dog.name}
+                      </Typography>
+                      {dogData.newDogIds?.indexOf(dog.id) > -1 && (
+                        <Chip label="New" color="secondary" size="small" />
+                      )}
+                    </div>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      Age: {dog.age}
                     </Typography>
-                    {dogData.newDogIds?.indexOf(dog.id) > -1 && (
-                      <Chip label="New" color="secondary" size="small" />
-                    )}
-                  </div>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    Age: {dog.age}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    Sex: {dog.sex}
-                  </Typography>
-                  <Typography
-                    variant="body2"
-                    color="textSecondary"
-                    component="p"
-                  >
-                    Breed: {dog.breed}
-                  </Typography>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          ))}
-        </GridList>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      Sex: {dog.sex}
+                    </Typography>
+                    <Typography
+                      variant="body2"
+                      color="textSecondary"
+                      component="p"
+                    >
+                      Breed: {dog.breed}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            ))}
+          </GridList>
+        ) : (
+          <CircularProgress className={classes.progress} />
+        )}
       </Container>
     </>
   );
