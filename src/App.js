@@ -29,7 +29,7 @@ const useStyles = makeStyles({
     display: "flex",
   },
   progress: {
-    margin: 'auto'
+    margin: "auto",
   },
   gridList: {
     justifyContent: "center",
@@ -44,15 +44,19 @@ const useStyles = makeStyles({
 });
 
 function App() {
-  const [dogData, setDogData] = React.useState({});
+  const [doggos, setDoggos] = React.useState({});
   const classes = useStyles();
 
   React.useEffect(() => {
     async function fetchDogs() {
-      const { data: dogs } = await axios(
+      const {
+        data: {
+          dogList: { dogs = [] },
+        },
+      } = await axios(
         "https://vrv4szc74j.execute-api.us-east-1.amazonaws.com/dev/pets"
       );
-      setDogData(dogs);
+      setDoggos(dogs);
     }
     fetchDogs();
   }, []);
@@ -60,22 +64,22 @@ function App() {
     <>
       <CssBaseline />
       <Container className={classes.container} maxWidth="md">
-        {!!dogData.dogList?.length ? (
+        {!!doggos.length ? (
           <GridList className={classes.gridList} cellHeight="auto" spacing={1}>
-            {dogData.dogList?.map((dog) => (
+            {doggos.map((doggo) => (
               <Card className={classes.root}>
-                <CardActionArea onClick={() => window.open(dog.url)}>
+                <CardActionArea onClick={() => window.open(doggo.url)}>
                   <CardMedia
                     className={classes.media}
-                    image={dog.photo}
-                    title={dog.name}
+                    image={doggo.photo}
+                    title={doggo.name}
                   />
                   <CardContent>
                     <div className={classes.nameContainer}>
                       <Typography gutterBottom variant="h5" component="h2">
-                        {dog.name}
+                        {doggo.name}
                       </Typography>
-                      {dogData.newDogIds?.indexOf(dog.id) > -1 && (
+                      {doggo.new && (
                         <Chip label="New" color="secondary" size="small" />
                       )}
                     </div>
@@ -84,21 +88,21 @@ function App() {
                       color="textSecondary"
                       component="p"
                     >
-                      Age: {dog.age}
+                      Age: {doggo.age}
                     </Typography>
                     <Typography
                       variant="body2"
                       color="textSecondary"
                       component="p"
                     >
-                      Sex: {dog.sex}
+                      Sex: {doggo.sex}
                     </Typography>
                     <Typography
                       variant="body2"
                       color="textSecondary"
                       component="p"
                     >
-                      Breed: {dog.breed}
+                      Breed: {doggo.breed}
                     </Typography>
                   </CardContent>
                 </CardActionArea>
