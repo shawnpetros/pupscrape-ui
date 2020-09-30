@@ -54,7 +54,7 @@ function App() {
           dogList: { dogs = [] },
         },
       } = await axios(
-        "https://vrv4szc74j.execute-api.us-east-1.amazonaws.com/dev/pets"
+        "https://xzmmvgz3wf.execute-api.us-east-1.amazonaws.com/dev/pets"
       );
       setDoggos(dogs);
     }
